@@ -1,0 +1,42 @@
+LOS BASICOS PRIMERO:         #Retroalimentacion de la correccion del profe
+1. crear la Comunidad
+2. crear las personas
+3. hacer que se junten las personas
+despues insertar el virus
+
+Objetivos: 
+- Algoritmos para nombres y apellidos en csv. 
+- definir el tamaño de las comunidades->grupos->ciudadanos tienen q vincularse con la comunidad
+elegir en donde va a empezar el virus, ahi se infectaran a los contactos estrechos
+de los contactos estrechos determinar nuevos contagiados
+
+
+como empezar las clases:
+Comunidad:
+num_ciudadanos: ciudadanos en la comunidad}
+promedio_conexion_fisica: el promedio de la cantidad interacciones
+                          que tiene UN ciudadano en la comunidad
+        (ejemplo del profe de la pizarra) p1 = [p2,p4]
+                                          p2 = [p1,p5,p3]   
+                                          p3 = [p2]          = promedio de 2 interacciones cada p
+                                          p4 = [p1,p5]
+                                          p5 = [p4,p2]                                                           
+
+enfermedad= enfermedad
+probabilidad_conexion_fisica: la probabilidad de que la conexion sea con un contacto estrecho
+num_infectados
+CIUDADANO: atributos
+comunidad: para saber a que comunidad pertenece
+_id: identificacion de la persona
+nombre 
+apellidos
+familia: identificarse con el appelido / aca serian los contactos estrechos de cada
+enfermedad: true o false
+estado: true o false indica si esta sano o contagiado
+
+LA ENFERMEDAD:
+infeccion_probable:prob de que sea infectado por una interaccion 
+promedio_pasos: cantidad de tiempo que el ciudadano tiene la enfermedad y la puede contagiar
+
+contador: valor para los stps
+enfermo: valor por defecto para
