@@ -1,11 +1,27 @@
-class Ciudadano: #base de atributos simples por ahora
-    def __init__(self, comunidad, _id,nombre_y_apellido, familia, emfermedad, estado):
+class Ciudadano:
+    def __init__(self, id, nombre, apellido, comunidad):
+        self.id = id
+        self.nombre = nombre
+        self.apellido = apellido
         self.comunidad = comunidad
-        self._id = _id
-        self.nombre_y_apellido
-        self.familia
-        
+        self.enfermo = False
+        self.dias_enfermo = 0
         self.enfermedad = None
-        #probablemente esto no va a funcionar asi q despues veo como lo voy a hacer
-        self.estado = True # enfermo
-        self.estado = False #no enfermo
+
+    def set_enfermedad(self, enfermedad):
+        self.enfermo = True
+        self.enfermedad = enfermedad
+
+    def get_enfermo(self):
+        return self.enfermo
+
+    def incrementar_dias_enfermo(self):
+        self.dias_enfermo += 1
+
+    def set_enfermo(self, enfermo):
+        self.enfermo = enfermo
+
+    def recuperar(self):
+        self.enfermo = False
+        self.enfermedad = None
+        self.dias_enfermo = 0
