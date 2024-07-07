@@ -1,0 +1,17 @@
+class Ciudadano:
+    def __init__(self, nombre, apellido, enfermedad):
+        self.nombre = nombre
+        self.apellido = apellido
+        self.enfermedad = enfermedad
+        self.estado = "Susceptible"  # Estado inicial del ciudadano
+        self.dias_infectado = 0  # Contador de días que lleva infectado
+
+    def procesar_dia(self):
+        if self.estado == "Infectado":
+            self.dias_infectado += 1  # Incrementar el contador de días infectado
+            if self.dias_infectado >= self.enfermedad.promedio_pasos:
+                self.estado = "Recuperado"  # Cambiar el estado a Recuperado si se alcanza el promedio de pasos
+    
+    def infectar(self):
+        self.estado = "Infectado"  # Cambiar el estado a Infectado
+        self.dias_infectado = 0  # Reiniciar el contador de días infectado
