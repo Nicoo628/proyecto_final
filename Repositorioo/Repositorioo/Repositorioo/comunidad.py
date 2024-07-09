@@ -9,36 +9,55 @@ class Comunidad:
         self.enfermedad = enfermedad
         self.probabilidad_conexion_fisica = probabilidad_conexion_fisica
 
-        # Cargar nombres y apellidos desde archivo CSV
+        #cargar los nombres y apellidos desde archivo csv
         self.nombres_apellidos_manager = NombresApellidosManager(archivo_nombres)
-        self.__crear_comunidad(num_infectados)  # Crear la comunidad con ciudadanos
+        self.__crear_comunidad(num_infectados)  # se crea la comunidad con ciudadanos
 
     def __crear_comunidad(self, num_infectados):
         for _ in range(self.num_ciudadanos):
             nombre, apellido = self.nombres_apellidos_manager.obtener_nombre_apellido()
             ciudadano = Ciudadano(nombre, apellido, self.enfermedad)
-            self.ciudadanos.append(ciudadano)  # Añadir cada ciudadano a la lista de ciudadanos
-        self.inicializar_infectados_aleatorios(num_infectados)  # Inicializar un número de infectados aleatorios
+            self.ciudadanos.append(ciudadano) 
+        self.inicializar_infectados_aleatorios(num_infectados)  # se inicializa con los infectados aleatorioos
 
     def simular_dia(self):
         for ciudadano in self.ciudadanos:
             ciudadano.procesar_dia()  # Procesar el estado diario de cada ciudadano
         self.propagar_infeccion()  # Propagar la infección entre ciudadanos
 
+    def agrupar_por_familia(self):
+        familias = {}
+        for ciudadano in self.ciudadanos:
+            if ciudadano.apellido not in familias:
+                familias[ciudadano.apellido] = []
+            if len(familias[ciudadano.apellido]) < 5:  # se limitar el tamaño de las familias a un maximo de5 personas
+                familias[ciudadano.apellido].append(ciudadano)
+        return familias
+
     def propagar_infeccion(self):
+        familias = self.agrupar_por_familia()
+        
         for ciudadano in self.ciudadanos:
             if ciudadano.estado == "Infectado":
+                # aca se implementan los contactos estrechos (familia)
+                if ciudadano.apellido in familias:
+                    for miembro in familias[ciudadano.apellido]:
+                        if miembro != ciudadano and miembro.estado == "Susceptible":
+                            ciudadano.intentar_infectar(miembro, 0.8)  # 80% probabilidad para contactos estrechos
+                
+                # las conexiones aleatorias de lo ciudadanos ademas de los contactos estrechos 
                 for _ in range(np.random.poisson(self.probabilidad_conexion_fisica)):
                     otro_ciudadano = np.random.choice(self.ciudadanos)
                     ciudadano.intentar_infectar(otro_ciudadano, self.enfermedad.infeccion_probable)
 
     def contar_estado(self, estado):
-        return sum(1 for ciudadano in self.ciudadanos if ciudadano.estado == estado)  # Contar ciudadanos en un estado dado
+        return sum(1 for ciudadano in self.ciudadanos if ciudadano.estado == estado) 
     
     def generar_muestra_aleatoria(self, tamano_muestra):
         return np.random.choice(self.ciudadanos, tamano_muestra, replace=False)  # Generar una muestra aleatoria de ciudadanos
 
     def inicializar_infectados_aleatorios(self, num_infectados):
-        muestra = self.generar_muestra_aleatoria(num_infectados)  # Seleccionar una muestra aleatoria de ciudadanos
+        muestra = self.generar_muestra_aleatoria(num_infectados) 
         for ciudadano in muestra:
             ciudadano.infectar()  # Infectar a los ciudadanos en la muestra
+
