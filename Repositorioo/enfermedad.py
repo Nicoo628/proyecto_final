@@ -1,14 +1,4 @@
 class Enfermedad:
-    def __init__(self, infeccion_probable, duracion, prob_recuperacion):
-        self.infeccion_probable = infeccion_probable
-        self.duracion = duracion
-        self.prob_recuperacion = prob_recuperacion
-
-    def get_infeccion_probable(self):
-        return self.infeccion_probable
-
-    def get_duracion(self):
-        return self.duracion
-
-    def get_prob_recuperacion(self):
-        return self.prob_recuperacion
+    def __init__(self, infeccion_probable, promedio_pasos):
+        self.infeccion_probable = infeccion_probable  # Probabilidad de infección
+        self.promedio_pasos = promedio_pasos  # Promedio de días para recuperación

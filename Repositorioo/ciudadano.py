@@ -1,27 +1,24 @@
+import numpy as np
 class Ciudadano:
-    def __init__(self, id, nombre, apellido, comunidad):
-        self.id = id
+    def __init__(self, nombre, apellido, enfermedad):
         self.nombre = nombre
         self.apellido = apellido
-        self.comunidad = comunidad
-        self.enfermo = False
-        self.dias_enfermo = 0
-        self.enfermedad = None
-
-    def set_enfermedad(self, enfermedad):
-        self.enfermo = True
         self.enfermedad = enfermedad
+        self.estado = "Susceptible"  # Estado
+        self.dias_infectado = 0  # contador de cuantos dias lleva infectado
 
-    def get_enfermo(self):
-        return self.enfermo
 
-    def incrementar_dias_enfermo(self):
-        self.dias_enfermo += 1
+    def procesar_dia(self):
+        if self.estado == "Infectado":
+            self.dias_infectado += 1  
+            if self.dias_infectado >= self.enfermedad.promedio_pasos:
+                self.estado = "Recuperado"  # recuperarse si alcanza el promedio de pasos
+    
+    def infectar(self):
+        self.estado = "Infectado"   
+        self.dias_infectado = 0  
 
-    def set_enfermo(self, enfermo):
-        self.enfermo = enfermo
-
-    def recuperar(self):
-        self.enfermo = False
-        self.enfermedad = None
-        self.dias_enfermo = 0
+    def intentar_infectar(self, otro_ciudadano, probabilidad_infeccion):
+        if self.estado == "Infectado" and otro_ciudadano.estado == "Susceptible":
+            if np.random.poisson() < probabilidad_infeccion:
+                otro_ciudadano.infectar()  # Infectar al otro ciudadano con cierta probabilidad
